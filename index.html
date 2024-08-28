@@ -1,31 +1,184 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NFC UID Reader</title>
+    <title>Ömer Safa Aksu</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap');
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background-color: #f3f4f6;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #4a5568;
+            text-align: center;
+        }
+
+        label {
+            font-size: 16px;
+            color: #4a5568;
+        }
+
+        input,
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 10px;
+            border: 1px solid #cbd5e0;
+            border-radius: 8px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        input {
+            background-color: #edf2f7;
+        }
+
+        button {
+            background-color: #3182ce;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #2b6cb0;
+        }
+
+        #log {
+            margin-top: 20px;
+            font-family: 'Quicksand', sans-serif;
+            white-space: pre-wrap;
+            background-color: #e2e8f0;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #cbd5e0;
+            font-size: 18px;
+            color: #2d3748;
+        }
+    </style>
 </head>
+
 <body>
-    <h1>NFC UID Reader</h1>
-    <input type="text" id="nfcInput" placeholder="Kartı okutunuz" readonly>
-    <button id="readNfcButton">NFC Kartı Oku</button>
+    <div class="container">
+        <h1>Ömer Safa Aksu</h1>
+        <h1>NFC Reader/Writer</h1>
+
+        <label for="nfcInput">Enter text to write to NFC Tag:</label>
+        <input type="text" id="nfcInput" placeholder="Enter text here">
+
+        <button id="writeButton">Write to NFC Tag</button>
+        <button id="scanButton">Scan NFC Tag</button>
+        <button id="makeReadOnlyButton">Make NFC Tag Read-Only</button>
+
+        <div id="log"></div>
+    </div>
 
     <script>
-        document.getElementById('readNfcButton').addEventListener('click', function() {
-            // NFC okuyucu SDK'sı initialize edilmesi
-            const nfcReader = new NFCReaderSDK(); // SDK'dan sınıfı başlatma
+        // Function to log messages to the page
+        function log(message) {
+            const logDiv = document.getElementById("log");
+            logDiv.textContent += message + "\n";
+        }
 
-            // UID okuma işlemi
-            nfcReader.readUID()
-                .then(uid => {
-                    // UID'yi input alanına yazdırma
-                    document.getElementById('nfcInput').value = uid;
-                })
-                .catch(error => {
-                    console.error('NFC okuma hatası:', error);
-                    alert('NFC kart okunamadı, lütfen tekrar deneyin.');
+        // Event listener for the Scan button
+        document.getElementById("scanButton").addEventListener("click", async () => {
+            log("User clicked scan button");
+
+            try {
+                const ndef = new NDEFReader();
+                await ndef.scan();
+                log("> Scan started");
+
+                ndef.addEventListener("readingerror", () => {
+                    log("Argh! Cannot read data from the NFC tag. Try another one?");
                 });
+
+                ndef.addEventListener("reading", ({ message, serialNumber }) => {
+                    log(`> Serial Number: ${serialNumber}`);
+                    log(`> Records: (${message.records.length})`);
+
+                    for (const record of message.records) {
+                        log(`\n--- Record ---`);
+                        log(`Record type: ${record.recordType}`);
+                        log(`Media type: ${record.mediaType || "N/A"}`);
+                        log(`ID: ${record.id || "N/A"}`);
+
+                        if (record.recordType === "text") {
+                            const textDecoder = new TextDecoder(record.encoding);
+                            const text = textDecoder.decode(record.data);
+                            log(`Text: ${text}`);
+                        } else if (record.recordType === "url") {
+                            const textDecoder = new TextDecoder();
+                            const url = textDecoder.decode(record.data);
+                            log(`URL: ${url}`);
+                        } else {
+                            log(`Data: ${record.data ? new TextDecoder().decode(record.data) : "No data"}`);
+                        }
+                    }
+                });
+            } catch (error) {
+                log("Argh! " + error);
+            }
+        });
+
+        // Event listener for the Write button
+        document.getElementById("writeButton").addEventListener("click", async () => {
+            log("User clicked write button");
+
+            // Get the value from the input field
+            const nfcInputValue = document.getElementById("nfcInput").value;
+
+            if (nfcInputValue === "") {
+                log("Please enter some text to write to the NFC tag.");
+                return;
+            }
+
+            try {
+                const ndef = new NDEFReader();
+                await ndef.write(nfcInputValue);
+                log(`> Message "${nfcInputValue}" written to NFC tag`);
+            } catch (error) {
+                log("Argh! " + error);
+            }
+        });
+
+        // Event listener for the Make Read-Only button
+        document.getElementById("makeReadOnlyButton").addEventListener("click", async () => {
+            log("User clicked make read-only button");
+
+            try {
+                const ndef = new NDEFReader();
+                await ndef.makeReadOnly();
+                log("> NFC tag has been made permanently read-only");
+            } catch (error) {
+                log("Argh! " + error);
+            }
         });
     </script>
+
 </body>
+
 </html>
