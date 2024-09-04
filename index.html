@@ -87,47 +87,41 @@
       logDiv.textContent += message + "\n";
     }
 
-  
     // Event listener for the Scan button
     document.getElementById("scanButton").addEventListener("click", async () => {
       log("User clicked scan button");
 
-  
       try {
         const ndef = new NDEFReader();
         await ndef.scan();
         log("> Scan started");
 
-  
         ndef.addEventListener("readingerror", () => {
           log("Argh! Cannot read data from the NFC tag. Try another one?");
         });
 
-  
         ndef.addEventListener("reading", ({ message, serialNumber }) => {
           log(`> Serial Number: ${serialNumber}`);
           log(`> Records: (${message.records.length})`);
 
-  
+          // Loop through each record
           for (const record of message.records) {
-            const textDecoder = new TextDecoder(record.encoding);
-            const text = textDecoder.decode(record.data);
-            log(`> Message: ${text}`);
             log(`\n--- Record ---`);
             log(`Record type: ${record.recordType}`);
             log(`Media type: ${record.mediaType || "N/A"}`);
             log(`ID: ${record.id || "N/A"}`);
+            log(`Language: ${record.lang || "N/A"}`);
+            log(`Encoding: ${record.encoding || "N/A"}`);
+
+            const textDecoder = new TextDecoder(record.encoding || "utf-8");
+            const decodedData = textDecoder.decode(record.data);
 
             if (record.recordType === "text") {
-              const textDecoder = new TextDecoder(record.encoding);
-              const text = textDecoder.decode(record.data);
-              log(`Text: ${text}`);
+              log(`Text Data: ${decodedData}`);
             } else if (record.recordType === "url") {
-              const textDecoder = new TextDecoder();
-              const url = textDecoder.decode(record.data);
-              log(`URL: ${url}`);
+              log(`URL Data: ${decodedData}`);
             } else {
-              log(`Data: ${record.data ? new TextDecoder().decode(record.data) : "No data"}`);
+              log(`Other Data: ${decodedData}`);
             }
           }
         });
@@ -136,22 +130,18 @@
       }
     });
 
-  
     // Event listener for the Write button
     document.getElementById("writeButton").addEventListener("click", async () => {
       log("User clicked write button");
 
-  
       // Get the value from the input field
       const nfcInputValue = document.getElementById("nfcInput").value;
 
-  
       if (nfcInputValue === "") {
         log("Please enter some text to write to the NFC tag.");
         return;
       }
 
-  
       try {
         const ndef = new NDEFReader();
         await ndef.write(nfcInputValue);
@@ -161,12 +151,10 @@
       }
     });
 
-  
     // Event listener for the Make Read-Only button
     document.getElementById("makeReadOnlyButton").addEventListener("click", async () => {
       log("User clicked make read-only button");
 
-  
       try {
         const ndef = new NDEFReader();
         await ndef.makeReadOnly();
