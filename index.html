@@ -144,19 +144,8 @@
 
       try {
         const ndef = new NDEFReader();
-
-        // Create a new text record
-        const textRecord = {
-          recordType: "text",
-          data: nfcInputValue,
-        };
-
-        // Write the new record to the NFC tag
-        await ndef.write({
-          records: [textRecord] // You can add more records here
-        });
-
-        log(`> Message "${nfcInputValue}" written as a new record to NFC tag`);
+        await ndef.write(nfcInputValue);
+        log(`> Message "${nfcInputValue}" written to NFC tag`);
       } catch (error) {
         log("Argh! " + error);
       }
