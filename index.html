@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Ömer Safa Aksu</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap');
+
     body {
       font-family: 'Quicksand', sans-serif;
       background-color: #f3f4f6;
@@ -16,6 +18,7 @@
       height: 100vh;
       margin: 0;
     }
+
     .container {
       background-color: #fff;
       padding: 20px;
@@ -24,17 +27,21 @@
       max-width: 400px;
       width: 100%;
     }
+
     h1 {
       font-size: 24px;
       margin-bottom: 20px;
       color: #4a5568;
       text-align: center;
     }
+
     label {
       font-size: 16px;
       color: #4a5568;
     }
-    input, button {
+
+    input,
+    button {
       width: 100%;
       padding: 12px;
       margin-top: 10px;
@@ -43,9 +50,11 @@
       font-size: 16px;
       box-sizing: border-box;
     }
+
     input {
       background-color: #edf2f7;
     }
+
     button {
       background-color: #3182ce;
       color: #fff;
@@ -53,9 +62,11 @@
       cursor: pointer;
       transition: background-color 0.3s ease;
     }
+
     button:hover {
       background-color: #2b6cb0;
     }
+
     #log {
       margin-top: 20px;
       font-family: 'Quicksand', sans-serif;
@@ -69,6 +80,7 @@
     }
   </style>
 </head>
+
 <body>
   <div class="container">
     <h1>Ömer Safa Aksu</h1>
@@ -144,7 +156,11 @@
 
       try {
         const ndef = new NDEFReader();
-        await ndef.write(nfcInputValue);
+        await ndef.write({
+          records: [
+            { recordType: "mime", data: JSON.stringify({ message: nfcInputValue }) },
+          ]
+        });
         log(`> Message "${nfcInputValue}" written to NFC tag`);
       } catch (error) {
         log("Argh! " + error);
@@ -166,4 +182,5 @@
   </script>
 
 </body>
+
 </html>
