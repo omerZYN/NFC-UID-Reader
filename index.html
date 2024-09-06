@@ -158,7 +158,7 @@
         const ndef = new NDEFReader();
         await ndef.write({
           records: [
-            { recordType: "mime", data: JSON.stringify({ message: nfcInputValue }) },
+            { recordType: "mime", mediaType: 'application/json', data: JSON.stringify({ message: nfcInputValue }) },
           ]
         });
         log(`> Message "${nfcInputValue}" written to NFC tag`);
