@@ -1,186 +1,173 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ömer Safa Aksu</title>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap');
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AIRO Team</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            color: white;
+            background: linear-gradient(to bottom, #0b3d91, #1c1c1c);
+            background-attachment: fixed;
+        }
 
-    body {
-      font-family: 'Quicksand', sans-serif;
-      background-color: #f3f4f6;
-      color: #333;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-    }
+        header {
+            background: url('https://source.unsplash.com/1600x900/?galaxy,space') no-repeat center center/cover;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+        }
 
-    .container {
-      background-color: #fff;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-      max-width: 400px;
-      width: 100%;
-    }
+        h1 {
+            font-size: 5rem;
+            margin: 0;
+        }
 
-    h1 {
-      font-size: 24px;
-      margin-bottom: 20px;
-      color: #4a5568;
-      text-align: center;
-    }
+        nav {
+            margin-top: 20px;
+        }
 
-    label {
-      font-size: 16px;
-      color: #4a5568;
-    }
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 1.2rem;
+            border-bottom: 2px solid transparent;
+            transition: border-bottom 0.3s;
+        }
 
-    input,
-    button {
-      width: 100%;
-      padding: 12px;
-      margin-top: 10px;
-      border: 1px solid #cbd5e0;
-      border-radius: 8px;
-      font-size: 16px;
-      box-sizing: border-box;
-    }
+        nav a:hover {
+            border-bottom: 2px solid white;
+        }
 
-    input {
-      background-color: #edf2f7;
-    }
+        section {
+            padding: 50px;
+            text-align: center;
+        }
 
-    button {
-      background-color: #3182ce;
-      color: #fff;
-      border: none;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
+        .team {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+        }
 
-    button:hover {
-      background-color: #2b6cb0;
-    }
+        .member {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            width: 300px;
+            text-align: center;
+            background-color: #0b3d91;
+        }
 
-    #log {
-      margin-top: 20px;
-      font-family: 'Quicksand', sans-serif;
-      white-space: pre-wrap;
-      background-color: #e2e8f0;
-      padding: 10px;
-      border-radius: 8px;
-      border: 1px solid #cbd5e0;
-      font-size: 18px;
-      color: #2d3748;
-    }
-  </style>
+        .member img {
+            border-radius: 50%;
+            width: 120px;
+            height: 120px;
+        }
+
+        .member h3 {
+            margin: 15px 0 10px;
+        }
+
+        .member p {
+            font-size: 0.9rem;
+        }
+
+        .member ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 10px 0;
+            font-size: 0.9rem;
+        }
+
+        .member ul li {
+            margin-bottom: 5px;
+        }
+
+        .goals {
+            background: #0b3d91;
+            color: white;
+            padding: 40px;
+        }
+
+        footer {
+            background: #1c1c1c;
+            text-align: center;
+            padding: 20px;
+            font-size: 0.9rem;
+        }
+    </style>
 </head>
-
 <body>
-  <div class="container">
-    <h1>Ömer Safa Aksu</h1>
-    <h1>NFC Reader/Writer</h1>
-    <label for="nfcInput">Enter text to write to NFC Tag:</label>
-    <input type="text" id="nfcInput" placeholder="Enter text here">
-    <button id="writeButton">Write to NFC Tag</button>
-    <button id="scanButton">Scan NFC Tag</button>
-    <button id="makeReadOnlyButton">Make NFC Tag Read-Only</button>
-    <div id="log"></div>
-  </div>
-  <script>
-    // Function to log messages to the page
-    function log(message) {
-      const logDiv = document.getElementById("log");
-      logDiv.textContent += message + "\n";
-    }
+    <header>
+        <h1>AIRO Team</h1>
+        <nav>
+            <a href="#team">Takımımız</a>
+            <a href="#goals">Hedefimiz</a>
+            <a href="#contact">İletişim</a>
+        </nav>
+    </header>
 
-    // Event listener for the Scan button
-    document.getElementById("scanButton").addEventListener("click", async () => {
-      log("User clicked scan button");
+    <section id="team">
+        <h2>Takımımız</h2>
+        <div class="team">
+            <div class="member">
+                <img src="1.png" alt="Hasan Zengin">
+                <h3>Hasan Zengin</h3>
+                <p>İstinye Üniversitesi<br>Makine Mühendisliği Öğrencisi</p>
+                <ul>
+                    <li>Görüntü İşleme</li>
+                    <li>Mobil Developer</li>
+                    <li>Python Developer</li>
+                    <li>İş Analisti</li>
+                </ul>
+            </div>
+            <div class="member">
+                <img src="3.png" alt="Ömer Safa Aksu">
+                <h3>Ömer Safa Aksu</h3>
+                <p>İstinye Üniversitesi<br>Bilgisayar Mühendisliği Öğrencisi</p>
+                <ul>
+                    <li>Takım Kaptanı</li>
+                    <li>WEB Developer</li>
+                    <li>CAD Çizim</li>
+                    <li>AI Developer</li>
+                </ul>
+            </div>
+            <div class="member">
+                <img src="2.png" alt="Alper Aslan">
+                <h3>Alper Aslan</h3>
+                <p>İstinye Üniversitesi<br>Matematik Bölümü Öğrencisi</p>
+                <ul>
+                    <li>Python Developer</li>
+                    <li>WEB Developer</li>
+                    <li>Otonom Sistemler</li>
+                    <li>Gömülü Sistemler</li>
+                </ul>
+            </div>
+        </div>
+    </section>
 
-      try {
-        const ndef = new NDEFReader();
-        await ndef.scan();
-        log("> Scan started");
+    <section id="goals" class="goals">
+        <h2>Bu Seneki Hedefimiz</h2>
+        <p>Bu yıl Teknofest Savaşan İHA yarışmasına katılmayı hedefliyoruz.</p>
+        <p>Takım olarak en iyi stratejilerle mücadele edecek ve yapay zeka tabanlı algoritmalarımızla rakiplerimizi alt etmeye çalışacağız.</p>
+    </section>
 
-        ndef.addEventListener("readingerror", () => {
-          log("Argh! Cannot read data from the NFC tag. Try another one?");
-        });
+    <section id="contact">
+        <h2>İletişim</h2>
+        <p>E-posta: exodaiha@gmail.com</p>
+        <p>Telefon: +90 530 015 7191</p>
+    </section>
 
-        ndef.addEventListener("reading", ({ message, serialNumber }) => {
-          log(`> Serial Number: ${serialNumber}`);
-          log(`> Records: (${message.records.length})`);
-
-          // Loop through each record
-          for (const record of message.records) {
-            log(`\n--- Record ---`);
-            log(`Record type: ${record.recordType}`);
-            log(`Media type: ${record.mediaType || "N/A"}`);
-            log(`ID: ${record.id || "N/A"}`);
-            log(`Language: ${record.lang || "N/A"}`);
-            log(`Encoding: ${record.encoding || "N/A"}`);
-
-            const textDecoder = new TextDecoder(record.encoding || "utf-8");
-            const decodedData = textDecoder.decode(record.data);
-
-            if (record.recordType === "text") {
-              log(`Text Data: ${decodedData}`);
-            } else if (record.recordType === "url") {
-              log(`URL Data: ${decodedData}`);
-            } else {
-              log(`Other Data: ${decodedData}`);
-            }
-          }
-        });
-      } catch (error) {
-        log("Argh! " + error);
-      }
-    });
-
-    // Event listener for the Write button
-    document.getElementById("writeButton").addEventListener("click", async () => {
-      log("User clicked write button");
-
-      // Get the value from the input field
-      const nfcInputValue = document.getElementById("nfcInput").value;
-
-      if (nfcInputValue === "") {
-        log("Please enter some text to write to the NFC tag.");
-        return;
-      }
-
-      try {
-        const ndef = new NDEFReader();
-        await ndef.write({
-          records: [
-            { recordType: "mime", mediaType: 'application/json', data: JSON.stringify({ message: nfcInputValue }) },
-          ]
-        });
-        log(`> Message "${nfcInputValue}" written to NFC tag`);
-      } catch (error) {
-        log("Argh! " + error);
-      }
-    });
-
-    // Event listener for the Make Read-Only button
-    document.getElementById("makeReadOnlyButton").addEventListener("click", async () => {
-      log("User clicked make read-only button");
-
-      try {
-        const ndef = new NDEFReader();
-        await ndef.makeReadOnly();
-        log("> NFC tag has been made permanently read-only");
-      } catch (error) {
-        log("Argh! " + error);
-      }
-    });
-  </script>
-
+    <footer>
+        <p>© 2024 AIRO Team. Tüm hakları saklıdır.</p>
+    </footer>
 </body>
-
 </html>
